@@ -44,27 +44,27 @@ int main() {
 			}
 		}
 		REP(i,1,g[0][0] + 1){
-			if(m - g[0][i] >= 0){
-				dp[0][m-g[0][i]] = 1;
+			if(m >= g[0][i]){
+				dp[0][g[0][i]] = 1;
 			}
 		}
 		REP(i,1,c){
 			REP(j,0,m){
 				if(dp[i-1][j] == true){
 					REP(k,1,g[i][0]+1){
-						if(j - g[i][k] >= 0){
-							dp[i][j-g[i][k]] = 1;
+						if(j + g[i][k] <= m){
+							dp[i][j+g[i][k]] = 1;
 						}
 					}
 				}
 			}
 		}
-		int money = 0;
-		while(money <= m && !dp[c-1][money]){
-			money++;
+		int money = m;
+		while(money >= 0 && !dp[c-1][money]){
+			money--;
 		}
-		if(money != m+1){
-			cout << m - money << endl;
+		if(money != -1){
+			cout << money << endl;
 		}else{
 			cout << "no solution" << endl;
 		}
