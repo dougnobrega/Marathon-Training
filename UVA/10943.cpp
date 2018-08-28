@@ -30,20 +30,22 @@ int dp[120][120];
 int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
+	n = 100;
+	k = 100;
+	REP(i,0,n+1)
+		dp[1][i] = 1;
+	REP(i,2,k+1){
+		REP(j,0,n+1){
+			dp[i][j] = 0;
+			REP(z,0,j+1){
+				dp[i][j] = (dp[i][j] + dp[i-1][j-z])%1000000;
+			}
+		}
+	}
 	while(cin >> n >> k){
 		if(n == 0 && k == 0)
 			return 0;
 
-		REP(i,0,n+1)
-			dp[1][i] = 1;
-		REP(i,2,k+1){
-			REP(j,0,n+1){
-				dp[i][j] = 0;
-				REP(z,0,j+1){
-					dp[i][j] = (dp[i][j] + dp[i-1][j-z])%1000000;
-				}
-			}
-		}
 		cout << dp[k][n] << endl;
 
 	}
