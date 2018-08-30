@@ -26,10 +26,10 @@ typedef vector<pii > vpi;
 							// Define's end //
 #define MAXN 1000100
 int n,m;
-string p,t;
+string p;
 int b[MAXN];
 int cont = 0;
-void kmpPreprocess(int i = 0, int j = -1){
+int kmpPreprocess(int i = 0, int j = -1){
 	b[0] = -1;
 	while(i < m){
 		while(j >= 0 && p[i] != p[j]) j = b[j];
@@ -37,19 +37,7 @@ void kmpPreprocess(int i = 0, int j = -1){
 		j++;
 		b[i] = j;
 	}
-}
-void kmpSearch(){
-	int i = 0,j = 0;
-	cont = 0;
-	while(i < n){
-		while(j>=0 && t[i] != p[j]) j = b[j];
-		i++;
-		j++;
-		if(j == m){
-			cont++;
-			j = 0;
-		}
-	}
+	return b[i];
 }
 
 int main() {
@@ -57,28 +45,15 @@ int main() {
 	cin.tie(0);
 
 
-	while(cin >> t){
-		if(t == ".")
+	while(cin >> p){
+		if(p == ".")
 			break;
-		n = t.size();
-		p = t;
-		m = 1;
-		cont = 0;
-		while(1){
-			if(n%m == 0){
-				kmpPreprocess();
-				kmpSearch();
-				if(cont == n/m){
-					break;
-				}
-			}
-			if(m > n/2){
-				cont = 1;
-				break;
-			}
-			m++;
-		}
-		cout << cont << endl;
+		m = p.size();
+		int result = kmpPreprocess();
+		if(m%(m-result) == 0)
+			cout << m/(m-result) << endl;
+		else
+			cout << 1 << endl;
 	}
 	return 0;
 }
