@@ -26,17 +26,21 @@ typedef vector<pii > vpi;
 							// Define's end //
 int n = 0;
 string v;
-map<int,map<ll,ll> > dp;
-ll solve(int i, ll num){
-	if(num > 2147483647) return 0;
-	if(i == n) return num;
-	if(dp[i].count(num)){
-		return dp[i][num];
+ll dp[510];
+ll solve(int i){
+
+	if(i == n) return 0;
+	if(dp[i] != -1LL){
+		return dp[i];
 	}
-	if(num > 0){
-		return dp[i][num] = max(num + solve(i+1,((int)v[i] - '0')),solve(i+1,num*10 + (ll)(v[i] - '0')));
+	ll ans = 0,tmp = 0;
+	for(int j = i; j < n;j++){
+		tmp = tmp * 10 + (ll)(v[j] - '0');
+		if(tmp > 2147483647)
+			break;
+		ans = max(ans,solve(j+1) + tmp);
 	}
-	return dp[i][num] = solve(i+1,(ll)(v[i] - '0'));
+	return dp[i] = ans;
 }
 int main() {
 	ios::sync_with_stdio(0);
@@ -46,8 +50,9 @@ int main() {
 	while(t--){
 		cin >> v;
 		n = v.size();
-		dp.clear();
-		cout << solve(0,0) << endl;
+		memset(dp,-1,sizeof dp);
+		// cout << dp[0];
+		cout << solve(0) << endl;
 	}
 	return 0;
 }
