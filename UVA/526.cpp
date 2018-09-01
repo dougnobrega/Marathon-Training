@@ -29,8 +29,8 @@ typedef vector<pii > vpi;
 int dp[MAXN][MAXN];
 string a, b;
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
+	//ios::sync_with_stdio(0);
+	//cin.tie(0);
 	bool n = false;
 	while(getline(cin,a) && getline(cin,b)){
 

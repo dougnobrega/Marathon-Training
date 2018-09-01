@@ -24,38 +24,52 @@ typedef vector<pii > vpi;
 #define mmc(a, b) (((a)*(b))/__gcd((a), (b)))
 
 							// Define's end //
-int dp[20010];
-int main() {
-	//ios::sync_with_stdio(0);
-	//cin.tie(0);
-	int t;
-	cin >> t;
-	while(t--){
-		int n,m;
+#define MAXN 1000010
+string t,p;
+int m, n;
+int b[MAXN];
 
-		cin >> m;
-		cin >> n;
-		vi moedas(n);
-
-		REP(i,0,n){
-			cin >> moedas[i];
-
-		}
-		memset(dp,0x3f,sizeof dp);
-		dp[0] = 0;
-		for(auto atual : moedas){
-			for(int i = 20000;i >= atual;i--){
-				dp[i] = min(dp[i],1 + dp[i - atual]);
-			}
-		}
-
-		for(int i = m;i <= 20000 ;i++){
-			if(dp[i] != INF){
-				cout << i << " " << dp[i] << endl;
+void kmpPreprocess(){
+	int j = -1,i = 0;
+	b[0] = -1;
+	while(i < m){
+		while(j >= 0 && p[i] != p[j]) j = b[j];
+		i++;
+		j++;
+		b[i] = j;
+	}
+}
+int kmpSearch(){
+	int j = 0, i = 0;
+	while(i < n){
+		while(j < m){
+			if(t[i] == p[j]){
+				i++; j++;
+			}else{
 				break;
 			}
 		}
+		if(j == 0)
+			i++;
+		if(i == n)
+			return j;
+		j = b[j];
+	}
+	return 0;
+}
+int main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
 
+	while(cin >> p){
+		t = p;
+		reverse(all(p));
+		m = p.size();
+		n = t.size();
+		kmpPreprocess();
+		int ans = kmpSearch();
+		p = t.substr(0,p.size() - ans);
+		cout << t + string(p.rbegin(),p.rend())<< endl;
 	}
 	return 0;
 }
